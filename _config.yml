@@ -1,32 +1,22 @@
-# Site
-repository: sproogen/resume-theme
-# favicon: images/favicon.ico
-
 # Personal info
-name: Brett Harris
-title: Senior Network System Administrator
-email: brett.h@email.co.uk
-website: www.github.com/sproogen/resume-theme
+name: Nicholas Alvino
+title: Computer Science
+email: naalvino@optonline.net
 
 # Social links
-twitter_username: facespics
-github_username:  sproogen
-# dribbble_username: jekyll
-# facebook_username: jekyll
-# flickr_username: jekyll
-instagram_username: chillwildlife
-linkedin_username: jameswgrant
-# pinterest_username: jekyll
-youtube_username: globalmtb
-# googleplus_username: +jekyll
+github_username:  naalvino
+linkedin_username: nicholas_alvino
+
 
 # About Section
-# about_title: About Me
 about_profile_image: images/profile.jpg
 about_content: | # this will include new lines to allow paragraphs
-  Hi, my name's Brett and I'm a senior network system administrator. As well as administrating systems I also have experience making software and web apps. I have worked at a number of companies gaining teamwork and leadership skills.
-
-  I am most skilled in: <mark>AWS</mark> and <mark>Eating Pizza</mark>
+  I am a college sophomore eager to enter the working world in the field of technology, specifically
+Cybersecurity. I am keen to develop new skills to complement my studies as a Computer Science,
+Cybersecurity major and to progress in the technology field. Computers are my passion, allowing me to
+enjoy learning new concepts and topics such as encryption methods. My goal is to acquire a professional
+position in cybersecurity or computer science where I can utilize my relevant experience, technical
+expertise, and problem-solving skills.
 
 # Projects Section
 # projects_title: Projects
@@ -39,12 +29,12 @@ about_content: | # this will include new lines to allow paragraphs
 
 # More Section
 # more_title: A Little More About Me
-more_content: | # this will include new lines to allow paragraphs
-  Alongside my interests in networks and software engineering some of my other interests and hobbies are:
-   - Rock climbing
-   - Gaming
-   - Knitting
-   - [Becoming a ninja](https://www.youtube.com/watch?v=vtg4o__aRMg)
+#more_content: | # this will include new lines to allow paragraphs
+#  Alongside my interests in networks and software engineering some of my other interests and hobbies are:
+#   - Rock climbing
+#   - Gaming
+#   - Knitting
+#   - [Becoming a ninja](https://www.youtube.com/watch?v=vtg4o__aRMg)
 
 # Footer
 footer_show_references: true
