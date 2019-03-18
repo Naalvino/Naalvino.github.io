@@ -9,7 +9,7 @@ linkedin_username: nicholasalvino
 
 
 # About Section
-about_profile_image: images/profile.jpg
+about_profile_image: profile.jpg
 about_content: | # this will include new lines to allow paragraphs
   I am a college sophomore eager to enter the working world in the field of technology, specifically
   Cybersecurity. I am keen to develop new skills to complement my studies as a Computer Science,
