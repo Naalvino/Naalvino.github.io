@@ -25,7 +25,7 @@ about_content: | # this will include new lines to allow paragraphs
 # experience_title: Experience
 
 # Education Section
-# educaton_title: Education
+ educaton_title: Education
 - name: Kean University
   dates: 2017 - 2021
   qualification: BS Computer Science with a Cyber Security Concentration
