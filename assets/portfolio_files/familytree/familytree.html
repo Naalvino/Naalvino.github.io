@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Family Tree (British)</title>
+  <meta name="description" content="A family tree diagram of British royalty." />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="go-debug.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+ 
+  <script id="code">
+    function init() {
+      if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+      var $ = go.GraphObject.make;  // for conciseness in defining templates
+
+      myDiagram =
+        $(go.Diagram, "myDiagramDiv",  // must be the ID or reference to div
+          {
+            "toolManager.hoverDelay": 100,  // 100 milliseconds instead of the default 850
+            allowCopy: false,
+            layout:  // create a TreeLayout for the family tree
+              $(go.TreeLayout,
+                { angle: 90, nodeSpacing: 10, layerSpacing: 40, layerStyle: go.TreeLayout.LayerUniform })
+          });
+
+      var bluegrad = '#90CAF9';
+      var pinkgrad = '#F48FB1';
+
+      // Set up a Part as a legend, and place it directly on the diagram
+      myDiagram.add(
+        $(go.Part, "Table",
+          { position: new go.Point(20, 10), selectable: false },
+          $(go.TextBlock, "Key",
+            { row: 0, font: "700 14px Droid Serif, sans-serif" }),  // end row 0
+          $(go.Panel, "Horizontal",
+            { row: 1, alignment: go.Spot.Left },
+            $(go.Shape, "Rectangle",
+              { desiredSize: new go.Size(30, 30), fill: bluegrad, margin: 5 }),
+            $(go.TextBlock, "Males",
+              { font: "700 13px Droid Serif, sans-serif" })
+          ),  // end row 1
+          $(go.Panel, "Horizontal",
+            { row: 2, alignment: go.Spot.Left },
+            $(go.Shape, "Rectangle",
+              { desiredSize: new go.Size(30, 30), fill: pinkgrad, margin: 5 }),
+            $(go.TextBlock, "Females",
+              { font: "700 13px Droid Serif, sans-serif" })
+          )  // end row 2
+        ));
+
+      // get tooltip text from the object's data
+      function tooltipTextConverter(person) {
+        var str = "";
+        str += "Born: " + person.birthYear;
+        if (person.deathYear !== undefined) str += "\nDied: " + person.deathYear;
+        if (person.reign !== undefined) str += "\nReign: " + person.reign;
+        return str;
+      }
+
+      // define tooltips for nodes
+      var tooltiptemplate =
+        $("ToolTip",
+          { "Border.fill": "whitesmoke", "Border.stroke": "black" },
+          $(go.TextBlock,
+            {
+              font: "bold 8pt Helvetica, bold Arial, sans-serif",
+              wrap: go.TextBlock.WrapFit,
+              margin: 5
+            },
+            new go.Binding("text", "", tooltipTextConverter))
+        );
+
+      // define Converters to be used for Bindings
+      function genderBrushConverter(gender) {
+        if (gender === "M") return bluegrad;
+        if (gender === "F") return pinkgrad;
+        return "orange";
+      }
+
+      // replace the default Node template in the nodeTemplateMap
+      myDiagram.nodeTemplate =
+        $(go.Node, "Auto",
+          { deletable: false, toolTip: tooltiptemplate },
+          new go.Binding("text", "name"),
+          $(go.Shape, "Rectangle",
+            {
+              fill: "lightgray",
+              stroke: null, strokeWidth: 0,
+              stretch: go.GraphObject.Fill,
+              alignment: go.Spot.Center
+            },
+            new go.Binding("fill", "gender", genderBrushConverter)),
+          $(go.TextBlock,
+            {
+              font: "700 12px Droid Serif, sans-serif",
+              textAlign: "center",
+              margin: 10, maxSize: new go.Size(80, NaN)
+            },
+            new go.Binding("text", "name"))
+        );
+
+      // define the Link template
+      myDiagram.linkTemplate =
+        $(go.Link,  // the whole link panel
+          { routing: go.Link.Orthogonal, corner: 5, selectable: false },
+          $(go.Shape, { strokeWidth: 3, stroke: '#424242' }));  // the gray link shape
+
+      // here's the family data
+      var nodeDataArray = [
+        { key: 0, name: "George V", gender: "M", birthYear: "1865", deathYear: "1936", reign: "1910-1936" },
+        { key: 1, parent: 0, name: "Edward VIII", gender: "M", birthYear: "1894", deathYear: "1972", reign: "1936" },
+        { key: 2, parent: 0, name: "George VI", gender: "M", birthYear: "1895", deathYear: "1952", reign: "1936-1952" },
+        { key: 7, parent: 2, name: "Elizabeth II", gender: "F", birthYear: "1926", reign: "1952-" },
+        { key: 16, parent: 7, name: "Charles, Prince of Wales", gender: "M", birthYear: "1948" },
+        { key: 17, parent: 7, name: "Anne, Princess Royal", gender: "F", birthYear: "1950" },
+        { key: 18, parent: 7, name: "Prince Andrew", gender: "M", birthYear: "1960" },
+        { key: 19, parent: 7, name: "Prince Edward", gender: "M", birthYear: "1964" },
+        { key: 8, parent: 2, name: "Princess Margaret", gender: "F", birthYear: "1930", deathYear: "2002" },
+        { key: 20, parent: 8, name: "David Armstrong-Jones", gender: "M", birthYear: "1961" },
+        { key: 21, parent: 8, name: "Lady Sarah Chatto", gender: "F", birthYear: "1964" },
+        { key: 3, parent: 0, name: "Mary, Princess Royal", gender: "F", birthYear: "1897", deathYear: "1965" },
+        { key: 9, parent: 3, name: "George Lascelles", gender: "M", birthYear: "1923", deathYear: "2011" },
+        { key: 22, parent: 9, name: "David Lascelles", gender: "M", birthYear: "1950" },
+        { key: 23, parent: 9, name: "James Lascelles", gender: "M", birthYear: "1953" },
+        { key: 24, parent: 9, name: "Jeremy Lascelles", gender: "M", birthYear: "1955" },
+        { key: 25, parent: 9, name: "Mark Lascelles", gender: "M", birthYear: "1964" },
+        { key: 10, parent: 3, name: "Gerald Lascelles", gender: "M", birthYear: "1924", deathYear: "1998" },
+        { key: 26, parent: 10, name: "Henry Lascelles", gender: "M", birthYear: "1953" },
+        { key: 27, parent: 10, name: "Martin David Lascelles", gender: "M", birthYear: "1962" },
+        { key: 4, parent: 0, name: "Prince Henry", gender: "M", birthYear: "1900", deathYear: "1974" },
+        { key: 11, parent: 4, name: "Prince William of Gloucester", gender: "M", birthYear: "1941", deathYear: "1972" },
+        { key: 12, parent: 4, name: "Prince Richard", gender: "M", birthYear: "1944" },
+        { key: 5, parent: 0, name: "Prince George", gender: "M", birthYear: "1902", deathYear: "1942" },
+        { key: 13, parent: 5, name: "Prince Edward", gender: "M", birthYear: "1935" },
+        { key: 14, parent: 5, name: "Princess Alexandra", gender: "F", birthYear: "1936" },
+        { key: 15, parent: 5, name: "Prince Michael of Kent", gender: "M", birthYear: "1942" },
+        { key: 6, parent: 0, name: "Prince John", gender: "M", birthYear: "1905", deathYear: "1919" }
+      ];
+
+      // create the model for the family tree
+      myDiagram.model = new go.TreeModel(nodeDataArray);
+
+      document.getElementById('zoomToFit').addEventListener('click', function() {
+        myDiagram.zoomToFit();
+      });
+
+      document.getElementById('centerRoot').addEventListener('click', function() {
+        myDiagram.scale = 1;
+        myDiagram.scrollToRect(myDiagram.findNodeForKey(0).actualBounds);
+      });
+
+    }
+  </script>
+</head>
+<body onload="init()">
+<div id="sample">
+  <div id="myDiagramDiv" style="background-color: white; border: solid 1px black; width: 100%; height: 550px"></div>
+  <center><p><button id="zoomToFit">Zoom to Fit</button> <button id="centerRoot">Center on root</button></p></center>
+  <p>This family tree diagram shows several generations of British royalty beginning with George V (1865-1936). 
+    This diagram was created by utilizig GoJS 2.0 library in combination with HTML, CSS, and JavaScript.
+    <br>
+    Every female node will turn red and every male node will turn blue automatically and the table stating this will float in the left top corner, and should not interfere with the 
+    tree. These nodes are moveable by the user and they will never disconnect from their parent or child. Tooltips were added to the nodes and using JavaScript, the user is now able 
+    to hover over a persons name, and see information such as birth year, death year, and reigning time. The zoomToFit and centerRoot buttons will do as they state, zoomToFit will make 
+    sure all nodes are visible and centerRoot, will focus on the main root of the tree. Future plans for this project would be adding an add family member or delete family member to this 
+    list while utilizing a mySQL database. Another plan would be the ability to add secondary relatives, such as adding a spouse or child from two people rather than just blood relationships
+    shown above.
+  </p>
+
+</div>
+</body>
+</html>
